@@ -13,6 +13,7 @@ function KP (opts) {
     ? new EC('ed25519').keyFromPrivate(tobuf(opts.k))
     : new EC('ed25519').genKeyPair()
   this.k = bpad(32, Buffer(kp.getPublic().x.toArray()))
+  this.id = sha('sha1').update(this.k).digest('hex')
   this.seq = defined(opts.seq, 0)
 }
 
