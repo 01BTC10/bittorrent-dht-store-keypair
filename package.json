@@ -1,0 +1,38 @@
+{
+  "name": "bittorrent-dht-store-keypair",
+  "version": "1.0.0",
+  "description": "create and load signing keys for bittorrent-dht dht_store",
+  "main": "index.js",
+  "directories": {
+    "example": "example",
+    "test": "test"
+  },
+  "dependencies": {
+    "bencode": "~0.6.0",
+    "elliptic": "^3.1.0",
+    "sha.js": "^2.4.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/substack/bittorrent-dht-store-keypair.git"
+  },
+  "keywords": [
+    "bittorrent",
+    "dht",
+    "elliptic",
+    "ed25519",
+    "dht_store",
+    "signing",
+    "bep44"
+  ],
+  "author": "substack",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/substack/bittorrent-dht-store-keypair/issues"
+  },
+  "homepage": "https://github.com/substack/bittorrent-dht-store-keypair#readme"
+}
