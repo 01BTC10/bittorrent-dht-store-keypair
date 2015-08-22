@@ -9,8 +9,8 @@ module.exports = KP
 function KP (opts) {
   if (!(this instanceof KP)) return new KP(opts)
   if (!opts) opts = {}
-  this.kp = opts.k
-    ? new EC('ed25519').keyFromPrivate(tobuf(opts.k))
+  this.kp = opts.secretKey
+    ? new EC('ed25519').keyFromPrivate(tobuf(opts.secretKey))
     : new EC('ed25519').genKeyPair()
   this.k = bpad(32, Buffer(this.kp.getPublic().x.toArray()))
   this.id = sha('sha1').update(this.k).digest('hex')
