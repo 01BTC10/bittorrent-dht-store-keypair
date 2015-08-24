@@ -17,7 +17,7 @@ function KP (opts) {
     this.publicKey = Buffer(this.publicKey, 'hex')
   }
   if (!this.secretKey && !this.publicKey) {
-    var kp = ed.createKeyPair(ed.createSeed())
+    var kp = ed.createKeyPair(this.seed || ed.createSeed())
     this.secretKey = kp.secretKey
     this.publicKey = kp.publicKey
   }
