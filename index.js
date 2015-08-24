@@ -29,15 +29,18 @@ KP.prototype.sign = function (value) {
   return ed.sign(value, this.publicKey, this.secretKey)
 }
 
-KP.prototype.store = function (value) {
+KP.prototype.store = function (value, opts) {
+  if (!opts) opts = {}
   if (typeof value === 'string') value = Buffer(value)
+  var seq = defined(opts.seq, this.seq)
   var svalue = bencode.encode({
-    seq: this.seq,
+    seq: seq,
     v: value
   }).slice(1, -1)
+  if (opts.seq === undefined) this.seq ++
   return {
     k: this.publicKey,
-    seq: this.seq++,
+    seq: seq,
     v: value,
     sig: this.sign(value)
   }
