@@ -1,6 +1,6 @@
 {
   "name": "bittorrent-dht-store-keypair",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "create and load signing keys for bittorrent-dht dht_store",
   "main": "index.js",
   "directories": {
@@ -13,7 +13,9 @@
     "ed25519-supercop": "^1.0.0",
     "sha.js": "^2.4.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "tape": "^4.2.0"
+  },
   "scripts": {
     "test": "tape test/*.js"
   },
