@@ -41,6 +41,7 @@ KP.prototype.store = function (value, opts) {
   return {
     k: this.publicKey,
     seq: seq,
+    salt: opts.salt,
     v: value,
     sig: this.sign(value)
   }
