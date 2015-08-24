@@ -34,3 +34,28 @@ test('dht hex keys', function (t) {
     })
   })
 })
+
+test('dht generated key', function (t) {
+  t.plan(2)
+  var value = new Buffer(200).fill('abc')
+  var dht0 = new DHT({ bootstrap: false, verify: KP.verify })
+  var dht1 = new DHT({ bootstrap: false, verify: KP.verify })
+  var kp0 = new KP
+  t.once('end', function () {
+    dht0.destroy()
+    dht1.destroy()
+  })
+
+  dht0.listen(function () {
+    dht1.addNode('127.0.0.1:' + dht0._port)
+    dht1.once('node', function () {
+      dht0.put(kp0.store('wow'), function (errors, hash) {
+        errors.forEach(t.error)
+        dht1.get(hash, function (err, node) {
+          t.ifError(err)
+          t.equal(node.v.toString(), 'wow')
+        })
+      })
+    })
+  })
+})
