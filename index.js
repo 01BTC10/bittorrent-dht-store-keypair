@@ -43,6 +43,8 @@ KP.prototype.store = function (value) {
   }
 }
 
+KP.verify = ed.verify
+
 function tobuf (s) {
   if (typeof s === 'string') return Buffer(s, 'hex')
   return s
