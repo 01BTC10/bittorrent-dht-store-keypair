@@ -10,7 +10,7 @@
   "dependencies": {
     "bencode": "~0.6.0",
     "defined": "^1.0.0",
-    "elliptic": "^3.1.0",
+    "ed25519-supercop": "^1.0.0",
     "sha.js": "^2.4.2"
   },
   "devDependencies": {},

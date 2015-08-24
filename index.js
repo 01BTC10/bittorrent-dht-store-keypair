@@ -1,7 +1,6 @@
-var EC = require('elliptic').ec
+var ed = require('ed25519-supercop')
 var sha = require('sha.js')
 var defined = require('defined')
-var bpad = require('./lib/bpad.js')
 var bencode = require('bencode')
 
 module.exports = KP
@@ -9,20 +8,25 @@ module.exports = KP
 function KP (opts) {
   if (!(this instanceof KP)) return new KP(opts)
   if (!opts) opts = {}
-  this.kp = opts.secretKey
-    ? new EC('ed25519').keyFromPrivate(tobuf(opts.secretKey))
-    : new EC('ed25519').genKeyPair()
-  this.k = bpad(32, Buffer(this.kp.getPublic().x.toArray()))
-  this.id = sha('sha1').update(this.k).digest('hex')
+  this.secretKey = opts.secretKey
+  this.publicKey = opts.publicKey
+  if (typeof this.secretKey === 'string') {
+    this.secretKey = Buffer(this.secretKey, 'hex')
+  }
+  if (typeof this.publicKey === 'string') {
+    this.publicKey = Buffer(this.publicKey, 'hex')
+  }
+  if (!this.secretKey && !this.publicKey) {
+    var kp = ed.createKeyPair(ed.createSeed())
+    this.secretKey = kp.secretKey
+    this.publicKey = kp.publicKey
+  }
+  this.id = sha('sha1').update(this.publicKey).digest('hex')
   this.seq = defined(opts.seq, 0)
 }
 
 KP.prototype.sign = function (value) {
-  var sig = this.kp.sign(value)
-  return Buffer.concat([
-    bpad(32, Buffer(sig.r.toArray())),
-    bpad(32, Buffer(sig.s.toArray()))
-  ])
+  return ed.sign(value, this.publicKey, this.secretKey)
 }
 
 KP.prototype.store = function (value) {
@@ -32,7 +36,7 @@ KP.prototype.store = function (value) {
     v: value
   }).slice(1, -1)
   return {
-    k: this.k,
+    k: this.publicKey,
     seq: this.seq++,
     v: value,
     sig: this.sign(value)
