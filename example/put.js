@@ -1,10 +1,17 @@
-var kp = require('../')()
+var KP = require('../')
 var DHT = require('bittorrent-dht')
-var dht = new DHT({ bootstrap: false })
-console.log(kp.id)
+var path = require('path')
+var concat = require('concat-stream')
 
-dht.listen(5001, function () {
-  dht.put(kp.store('whatever'), function (errors, hash) {
-    console.log(hash)
-  })
+var dht = new DHT({ bootstrap: false, verify: KP.verify })
+var kp = KP(require(path.resolve(process.argv[2])))
+
+dht.addNode('127.0.0.1:5001')
+dht.once('node', function () {
+  process.stdin.pipe(concat(function (value) {
+    dht.put(kp.store(value), function (errors, hash) {
+      if (errors.length) errors.forEach(console.log)
+      else console.log(kp.id)
+    })
+  }))
 })
