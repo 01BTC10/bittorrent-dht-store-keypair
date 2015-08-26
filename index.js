@@ -30,6 +30,7 @@ KP.prototype.sign = function (value) {
 }
 
 KP.prototype.store = function (value, opts) {
+  var self = this
   if (!opts) opts = {}
   if (typeof value === 'string') value = Buffer(value)
   var seq = defined(opts.seq, this.seq)
@@ -43,7 +44,9 @@ KP.prototype.store = function (value, opts) {
     seq: seq,
     salt: opts.salt,
     v: value,
-    sig: this.sign(value)
+    sign: function (buf) {
+      return ed.sign(buf, self.publicKey, self.secretKey)
+    }
   }
 }
 
