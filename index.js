@@ -34,10 +34,11 @@ KP.prototype.store = function (value, opts) {
   if (typeof value === 'string') value = Buffer(value)
   var seq = defined(opts.seq, this.seq)
   if (opts.seq === undefined) this.seq ++
+  var salt = typeof opts.salt === 'string' ? Buffer(opts.salt) : opts.salt
   return {
     k: this.publicKey,
     seq: seq,
-    salt: opts.salt,
+    salt: salt,
     v: value,
     sign: function (buf) {
       return ed.sign(buf, self.publicKey, self.secretKey)
