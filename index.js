@@ -1,7 +1,6 @@
 var ed = require('ed25519-supercop')
 var sha = require('sha.js')
 var defined = require('defined')
-var bencode = require('bencode')
 
 module.exports = KP
 
@@ -34,10 +33,6 @@ KP.prototype.store = function (value, opts) {
   if (!opts) opts = {}
   if (typeof value === 'string') value = Buffer(value)
   var seq = defined(opts.seq, this.seq)
-  var svalue = bencode.encode({
-    seq: seq,
-    v: value
-  }).slice(1, -1)
   if (opts.seq === undefined) this.seq ++
   return {
     k: this.publicKey,
