@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 /*
-
 Store or retrieve arbitrary immutable or mutable value via BitTorrent DHT.
 
 immutable:
@@ -30,8 +29,8 @@ var kp = KP()
 
 function usage()
 {
-    console.log('Store or retrieve arbitrary immutable or mutable value via BitTorrent DHT.')
-    console.log('Usage: dht_store [genkey/put/get] <keypair.json> value (max size <= 1000 bytes)')
+    console.log('Store and retrieve arbitrary data from the BitTorrent DHT.')
+    console.log('Usage: ./dht_store.js [genkey/put/get] <keypair.json> value (max size <= 1000 bytes)')
     process.exit(-1)
 }
 
